@@ -6,7 +6,8 @@
     "rootDir": "src",
     "outDir": "lib",
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node"]
   },
   "include": ["src"]
 }

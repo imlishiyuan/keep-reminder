@@ -6,8 +6,24 @@
   "license": "Apache-2.0",
   "exports": "./lib/index.js",
   "main": "./lib/index.js",
+  "files": [
+    "lib",
+    "README.md",
+    "README.zh.md",
+    "LICENSE",
+    ".keep-reminder.example"
+  ],
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "reminder",
+    "system-reminder",
+    "plugin",
+    "context"
+  ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "@deepseek-ai/dsh-llm": "*",
