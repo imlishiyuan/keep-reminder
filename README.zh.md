@@ -21,14 +21,17 @@ cd ~/.dsh/profiles/web    # Windows: C:\Users\<你>\.dsh\profiles\web
 npm install keep-reminder --save
 ```
 
-2. 在 profile 的 `cordis.patch.yml` 挂载：
+2. **在 profile 的 `cordis.patch.yml` 里挂载。**要*加载*插件必须用 `insert:`，而不是直接写 `- id:`。
+   只写 `- id: keep-reminder` 会被当成对已加载条的覆盖，会报 `entry "keep-reminder" not found` 而被跳过（这是它不生效的常见原因）。
+   正确写法：
 
 ```yaml
-- id: keep-reminder
-  name: 'keep-reminder'
-  config:
-    mode: turn              # session | turn | request
-    file: '.keep-reminder'  # 可省略
+- insert:
+    - id: keep-reminder
+      name: 'keep-reminder'
+      config:
+        mode: turn              # session | turn | request
+        file: '.keep-reminder'  # 可省略
 ```
 
 3. 在**会话工作区根目录**建 `.keep-reminder` 文件（示例见 [`.keep-reminder.example`](.keep-reminder.example)），写入要提醒的内容。
@@ -101,13 +104,14 @@ npm run build      # 编译 src → lib/index.js
 
 ### 本地挂载
 
-开发期可直接用 `file://` URL 挂载编译产物，无需安装依赖：
+开发期可直接用 `file://` URL 挂载编译产物，无需安装依赖。同样要用 `insert:` 形式：
 
 ```yaml
-- id: keep-reminder
-  name: 'file:///D:/ui-workspace/keep-reminder/lib/index.js'
-  config:
-    mode: turn
+- insert:
+    - id: keep-reminder
+      name: 'file:///D:/ui-workspace/keep-reminder/lib/index.js'
+      config:
+        mode: turn
 ```
 
 把 URL 改成你的实际路径。
@@ -128,7 +132,7 @@ npx @deepseek-ai/dsh web --dump-config | findstr /C:"keep-reminder"
 npx @deepseek-ai/dsh web --dump-config | grep keep-reminder
 ```
 
-看到 `keep-reminder` 行即表示挂载成功。
+看到 `keep-reminder` 行且无 `not found` 警告，即表示挂载成功。
 
 ## 协议
 

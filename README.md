@@ -21,14 +21,18 @@ cd ~/.dsh/profiles/web    # Windows: C:\Users\<you>\.dsh\profiles\web
 npm install keep-reminder --save
 ```
 
-2. Mount it in the profile `cordis.patch.yml`:
+2. **Mount it in the profile `cordis.patch.yml`.** To *load* a plugin you must
+   **insert** it, not target an id. A bare `- id: keep-reminder` list entry is a
+   patch over an already-loaded entry — it warns `entry "keep-reminder" not
+   found` and does nothing. Use the `insert:` form:
 
 ```yaml
-- id: keep-reminder
-  name: 'keep-reminder'
-  config:
-    mode: turn              # session | turn | request
-    file: '.keep-reminder'  # optional
+- insert:
+    - id: keep-reminder
+      name: 'keep-reminder'
+      config:
+        mode: turn              # session | turn | request
+        file: '.keep-reminder'  # optional
 ```
 
 3. Create a `.keep-reminder` file in the **session workspace root** (see [`.keep-reminder.example`](.keep-reminder.example)) with the content to remember.
@@ -101,13 +105,14 @@ npm run build      # compiles src → lib/index.js
 
 ### Mount locally
 
-During development you can mount the compiled output directly via a `file://` URL, with no package install:
+During development you can mount the compiled output directly via a `file://` URL, with no package install. Remember to use the `insert:` form:
 
 ```yaml
-- id: keep-reminder
-  name: 'file:///D:/ui-workspace/keep-reminder/lib/index.js'
-  config:
-    mode: turn
+- insert:
+    - id: keep-reminder
+      name: 'file:///D:/ui-workspace/keep-reminder/lib/index.js'
+      config:
+        mode: turn
 ```
 
 Adjust the URL to your checkout path.
@@ -128,7 +133,7 @@ npx @deepseek-ai/dsh web --dump-config | findstr /C:"keep-reminder"
 npx @deepseek-ai/dsh web --dump-config | grep keep-reminder
 ```
 
-Seeing the `keep-reminder` row means the plugin is mounted.
+Seeing the `keep-reminder` row with no `not found` warning means the plugin is mounted.
 
 ## License
 
