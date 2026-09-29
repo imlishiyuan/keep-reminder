@@ -1,6 +1,6 @@
 {
   "name": "keep-reminder",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Inject a user-defined .keep-reminder file into context as <system-reminder>, with session/turn/request modes.",
   "license": "Apache-2.0",
@@ -39,10 +39,18 @@
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "*",
-    "@deepseek-ai/dsh-agent": "*",
-    "@deepseek-ai/dsh-llm": "*",
+    "@deepseek-ai/dsh-agent": "^0.1.7-rc.2",
+    "@deepseek-ai/dsh-llm": "^0.1.7-rc.2",
     "@deepseek-ai/schemastery": "*",
     "@types/node": "^26.2.0",
     "typescript": "^5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imlishiyuan/keep-reminder.git"
+  },
+  "homepage": "https://github.com/imlishiyuan/keep-reminder#readme",
+  "bugs": {
+    "url": "https://github.com/imlishiyuan/keep-reminder/issues"
   }
 }

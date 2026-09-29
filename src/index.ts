@@ -3,12 +3,28 @@ import z from '@deepseek-ai/schemastery'
 import type {} from '@deepseek-ai/dsh-agent'
 import type { Agent, PreStepDecision } from '@deepseek-ai/dsh-agent'
 import { createUserMessage } from '@deepseek-ai/dsh-llm'
+import type { ContextFormed } from '@deepseek-ai/dsh-llm'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 export const name = 'keep-reminder'
 
 export const inject: string[] = []
+
+/**
+ * 本插件在会话日志里的 producer 身份。
+ *
+ * DSH 0.1.7（session format v4）取消了共享的 `kind: 'plugin'`，消息来源必须是
+ * 「producer 自有的 kind」。第三方插件沿用 v3→v4 迁移器为未登记 producer 生成的
+ * `plugin:<包名>` 命名空间，使本插件写入的新消息与旧会话迁移后的 kind 保持一致。
+ */
+const SOURCE_KIND = 'plugin:keep-reminder'
+
+declare module '@deepseek-ai/dsh-llm' {
+  interface MessageSourceMap {
+    'plugin:keep-reminder': { kind: 'plugin:keep-reminder' } & ContextFormed
+  }
+}
 
 /** 注入模式与文件位置。 */
 export interface Config {
@@ -45,7 +61,7 @@ export function apply(ctx: Context, config: Config): void {
         ...decision.messages,
         createUserMessage({
           content: [{ type: 'text', text: `<system-reminder>\n${text}\n</system-reminder>` }],
-          source: { kind: 'plugin', plugin: name, form: 'snapshot', sections: [{ name, text }] },
+          source: { kind: SOURCE_KIND, form: 'snapshot', sections: [{ name, text }] },
         }),
       ],
     }
