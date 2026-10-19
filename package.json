@@ -1,6 +1,6 @@
 {
   "name": "keep-reminder",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "Inject a user-defined .keep-reminder file into context as <system-reminder>, with session/turn/request modes.",
   "license": "Apache-2.0",
