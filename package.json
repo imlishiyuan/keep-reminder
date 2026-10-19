@@ -11,7 +11,8 @@
     "README.md",
     "README.zh.md",
     "LICENSE",
-    ".keep-reminder.example"
+    ".keep-reminder.example",
+    "cordis.patch.yml"
   ],
   "keywords": [
     "deepseek-harness",
@@ -52,5 +53,10 @@
   "homepage": "https://github.com/imlishiyuan/keep-reminder#readme",
   "bugs": {
     "url": "https://github.com/imlishiyuan/keep-reminder/issues"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
   }
 }
